@@ -1,4 +1,5 @@
 import clientPromise from "@/helpers/db";
+import { time } from "console";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -7,7 +8,11 @@ export async function GET(req: NextRequest) {
             const posts = await clientPromise!.then(async (client: any) => {
                 const db = client.db("gossips");
                 const collection = db.collection("posts");
-                const results = await collection.find({}).toArray();
+                //reverse the fetch order from mongodb
+                const results = await collection
+                    .find({})
+                    .sort({ createdAt: -1 })
+                    .toArray();
                 return results;
             });
             return NextResponse.json(posts, { status: 200 });
@@ -51,6 +56,7 @@ export async function POST(req: NextRequest) {
                     media: body.media || { type: "", url: "" },
                     likes: [],
                     comments: [],
+                    createdAt: new Date().getTime(),
                 });
             });
             return NextResponse.json("Post Successfully Created!", {

@@ -15,7 +15,7 @@ type PostType = {
     media: {
         type: string;
         url: string;
-    } | null;
+    };
 };
 function Page() {
     const [post, setPost] = React.useState<PostType>({} as PostType);
@@ -30,6 +30,7 @@ function Page() {
         <div className="w-full max-w-2xl p-2">
             <form className="flex flex-col gap-1">
                 <input
+                    required
                     spellCheck={false}
                     value={post.title || ""}
                     onChange={(e) =>
@@ -50,6 +51,19 @@ function Page() {
                     placeholder="Description"
                     className="w-full   rounded-md p-2 outline-none border-none  bg-[#111] "
                 ></textarea>
+                <input
+                    spellCheck={false}
+                    value={post.media?.url || ""}
+                    onChange={(e) =>
+                        setPost((post) => ({
+                            ...post,
+                            media: { type: "image", url: e.target.value },
+                        }))
+                    }
+                    type="text"
+                    placeholder="Image URL"
+                    className="w-full p-2  rounded-md outline-none border-none  bg-[#111]"
+                />
                 <button
                     onClick={handlePostCreation}
                     className="w-full p-2 bg-blue-600 text-white"

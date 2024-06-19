@@ -20,15 +20,15 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-    const initialTheme = localStorage.getItem("theme") || "dark";
+    const initialTheme = "dark";
     const [theme, setTheme] = useState<string>(initialTheme || "dark");
     React.useEffect(() => {
         if (theme === "dark") {
             document.documentElement.classList.add("dark");
-            localStorage.setItem("theme", "dark");
+            // localStorage.setItem("theme", "dark");
         } else {
             document.documentElement.classList.remove("dark");
-            localStorage.setItem("theme", "light");
+            // localStorage.setItem("theme", "light");
         }
     }, [theme]);
 
